@@ -1,7 +1,9 @@
 # Root Meter
 
-Preoperative risk estimates for cesarean hysterectomy for placenta accreta spectrum (PAS),
-built from the HCUP National Inpatient Sample (NIS), 2016-2023.
+Estimates the risk of severe maternal morbidity (PAS-SMM) and other complications for patients
+having a cesarean hysterectomy for placenta accreta spectrum (PAS), built from the HCUP National
+Inpatient Sample (NIS), 2016-2023. It assumes a cesarean hysterectomy is planned and does not
+estimate whether one will be needed.
 
 **Site:** https://bcmobgyn.github.io/root-meter/ (password required; ask the PAS research team).
 The password is not case-sensitive.
