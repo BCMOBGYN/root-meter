@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Root Meter</title>
+<meta name="description" content="Password-protected preoperative risk calculator for cesarean hysterectomy for placenta accreta spectrum.">
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e; --muted: #898781;
+    --border: rgba(11, 11, 11, 0.12); --wash: rgba(11, 11, 11, 0.04);
+    --accent: #0077a8; --critical: #d03b3b; --focus: #0077a8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink2: #c3c2b7; --muted: #898781;
+      --border: rgba(255, 255, 255, 0.12); --wash: rgba(255, 255, 255, 0.05);
+      --accent: #1690ad; --critical: #e66767; --focus: #6cc0dc;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink2: #c3c2b7; --muted: #898781;
+    --border: rgba(255, 255, 255, 0.12); --wash: rgba(255, 255, 255, 0.05);
+    --accent: #1690ad; --critical: #e66767; --focus: #6cc0dc;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0; background: var(--page); color: var(--ink);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    display: grid; place-items: center; padding: 24px 16px;
+  }
+  .card {
+    width: 100%; max-width: 400px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 14px; padding: 26px 24px 20px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .brand svg { width: 38px; height: 24px; color: var(--ink); flex-shrink: 0; }
+  h1 { font-size: 24px; line-height: 1.2; margin: 0; letter-spacing: -0.01em; }
+  p.lede { color: var(--ink2); margin: 8px 0 18px; font-size: 14px; }
+  label.field { display: block; font-size: 13.5px; font-weight: 600; margin-bottom: 6px; }
+  .pw { display: flex; gap: 6px; }
+  input[type="password"], input[type="text"] {
+    flex: 1; min-width: 0; font: inherit; font-size: 16px; color: var(--ink); background: var(--page);
+    border: 1px solid var(--border); border-radius: 8px; padding: 9px 11px;
+  }
+  button {
+    font: inherit; font-size: 14px; border-radius: 8px; cursor: pointer; padding: 9px 14px;
+  }
+  button.ghost { background: transparent; color: var(--ink2); border: 1px solid var(--border); font-size: 13px; padding: 9px 10px; }
+  button.ghost:hover { background: var(--wash); color: var(--ink); }
+  button.primary { width: 100%; margin-top: 14px; background: var(--accent); color: #fff; border: 1px solid var(--accent); font-weight: 600; }
+  button.primary:disabled { opacity: 0.7; cursor: progress; }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .remember { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 13.5px; color: var(--ink2); }
+  .remember input { width: 16px; height: 16px; margin: 0; }
+  .error { min-height: 20px; margin: 10px 0 0; font-size: 13.5px; color: var(--critical); font-weight: 600; }
+  .foot { color: var(--muted); font-size: 12px; margin: 14px 0 0; }
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="brand">
+    <svg viewBox="0 0 32 20" aria-hidden="true">
+      <path d="M3 17 A13 13 0 0 1 29 17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.28"/>
+      <path d="M3 17 A13 13 0 0 1 12 4.8" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/>
+      <line x1="16" y1="17" x2="22.5" y2="7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="16" cy="17" r="2.2" fill="currentColor"/>
+    </svg>
+    <h1>Root Meter</h1>
+  </div>
+  <p class="lede">Preoperative risk estimates for cesarean hysterectomy for placenta accreta spectrum. Access is limited to the PAS research team; ask the team for the password.</p>
+  <noscript><p class="error">JavaScript is required to open this page.</p></noscript>
+  <form id="gate" autocomplete="off">
+    <label class="field" for="pw">Password</label>
+    <div class="pw">
+      <input id="pw" type="password" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+      <button type="button" class="ghost" id="show" aria-pressed="false">Show</button>
+    </div>
+    <label class="remember"><input type="checkbox" id="remember"> Remember on this device</label>
+    <button type="submit" class="primary" id="unlock">Unlock</button>
+    <p class="error" id="err" role="alert"></p>
+  </form>
+  <p class="foot">The page is encrypted and opens in your browser once the password is entered. The password is not case-sensitive.</p>
+</main>
+<script id="payload" type="application/json">/*__PAYLOAD__*/</script>
+<script>
+(function () {
+  "use strict";
+  var STORE = "rootmeter-key-v1";
+  var P = JSON.parse(document.getElementById("payload").textContent);
+  var subtle = window.crypto && window.crypto.subtle;
+  var form = document.getElementById("gate"), pw = document.getElementById("pw"), err = document.getElementById("err");
+  var btn = document.getElementById("unlock"), rem = document.getElementById("remember"), show = document.getElementById("show");
+
+  function unb64(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+  function b64(buf) { var u = new Uint8Array(buf), s = ""; for (var i = 0; i < u.length; i++) s += String.fromCharCode(u[i]); return btoa(s); }
+  function store(get, val) {
+    try { if (get) return localStorage.getItem(STORE); if (val === null) localStorage.removeItem(STORE); else localStorage.setItem(STORE, val); }
+    catch (e) { return null; }
+  }
+  function deriveKey(password) {
+    return subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveKey"]).then(function (base) {
+      return subtle.deriveKey({ name: "PBKDF2", salt: unb64(P.salt), iterations: P.iter, hash: "SHA-256" }, base,
+                              { name: "AES-GCM", length: 256 }, true, ["decrypt"]);
+    });
+  }
+  function decrypt(key) { return subtle.decrypt({ name: "AES-GCM", iv: unb64(P.iv) }, key, unb64(P.ct)); }
+  // document.open() is a no-op while the parser is still running, so a fast
+  // (remembered-key) unlock must wait for the load event before replacing the page.
+  function render(buf) {
+    var html = new TextDecoder().decode(buf);
+    function swap() { document.open(); document.write(html); document.close(); }
+    if (document.readyState === "complete") setTimeout(swap, 0);
+    else window.addEventListener("load", function () { setTimeout(swap, 0); });
+  }
+
+  if (!subtle) {
+    err.textContent = "This browser cannot decrypt the page here. Open it over https in a current browser.";
+    btn.disabled = true; return;
+  }
+  if (/[?&]forget\b/.test(location.search) || location.hash === "#forget") {
+    store(false, null);
+    try { history.replaceState(null, "", location.pathname); } catch (e) { /* ignore */ }
+  }
+
+  // A key remembered on this device unlocks without the password; a rebuild
+  // changes the salt, so an old key is discarded.
+  var saved = null;
+  try { saved = JSON.parse(store(true) || "null"); } catch (e) { saved = null; }
+  if (saved && saved.salt === P.salt) {
+    subtle.importKey("raw", unb64(saved.k), { name: "AES-GCM" }, false, ["decrypt"])
+      .then(decrypt).then(render).catch(function () { store(false, null); });
+  } else if (saved) { store(false, null); }
+
+  show.addEventListener("click", function () {
+    var on = pw.type === "password";
+    pw.type = on ? "text" : "password"; show.textContent = on ? "Hide" : "Show";
+    show.setAttribute("aria-pressed", on ? "true" : "false"); pw.focus();
+  });
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    err.textContent = ""; btn.disabled = true; btn.textContent = "Unlocking…";
+    var key;
+    deriveKey(pw.value.trim().toLowerCase())
+      .then(function (k) { key = k; return decrypt(k); })
+      .then(function (buf) {
+        if (rem.checked) {
+          return subtle.exportKey("raw", key).then(function (raw) {
+            store(false, JSON.stringify({ salt: P.salt, k: b64(raw) }));
+            return buf;
+          });
+        }
+        return buf;
+      })
+      .then(render)
+      .catch(function () {
+        btn.disabled = false; btn.textContent = "Unlock";
+        err.textContent = "That password didn’t work. Check it and try again.";
+        pw.select();
+      });
+  });
+  pw.focus();
+})();
+</script>
+</body>
+</html>
